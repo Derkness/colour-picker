@@ -1,24 +1,23 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Option from './option';
 import '../styles.css'
 
 function Selector(): JSX.Element {
-    const base = 360 / 7
-    const [colour_values, setColourValues] = useState([0 * base, 1 * base, 2 * base, 3 * base, 4 * base, 5 * base, 6 * base])
+    const amount_of_colours = 100
+    const indexes = Array.from(Array(amount_of_colours).keys())
+    let base = useRef(360 / amount_of_colours)
+    const [colour_values, setColourValues] = useState(
+        indexes.map(index => index*base.current)
+    )
 
     function updateRange(selected_colour: number): void {
-        const low = colour_values[selected_colour-1] || colour_values[selected_colour]
-        const high = colour_values[selected_colour+1] || colour_values[selected_colour]
-        const new_base = (high-low) / 7
-        setColourValues([
-            low + (0  * new_base),
-            low + (1  * new_base),
-            low + (2  * new_base),
-            low + (3  * new_base),
-            low + (4  * new_base),
-            low + (5  * new_base),
-            low + (6  * new_base)
-        ])
+        const low = colour_values[Math.round(selected_colour/2)] || colour_values[0]
+        // const high = colour_values[Math.round(selected_colour*2)] || colour_values[-1]
+        base.current = base.current/2
+        console.log(base.current)
+        setColourValues(
+            indexes.map(index => low+index*base.current)
+        )
     }
 
     return <div className="container">

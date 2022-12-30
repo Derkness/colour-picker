@@ -68,7 +68,13 @@ interface Props {
 
 function Option({ colour, onClick }: Props): JSX.Element {
     const [r, g, b] = hsvToRgb(colour, SATURATION, VALUE)
-    return <div className="box" onClick={onClick} style={{ background: `rgb(${r}, ${g}, ${b})` }} >rgb({r}, {g}, {b})</div>
+    return <div className="box" onClick={onClick} style={{ background: `rgb(${r}, ${g}, ${b})` }} >
+        {Math.round(r)}
+        <br />
+        {Math.round(g)}
+        <br />
+        {Math.round(b)}
+    </div>
 }
 
 export default Option
